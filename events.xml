@@ -1,0 +1,14 @@
+<events xmlns="http://jelix.org/ns/events/1.0">
+    
+	<listener name="ecomAuth">
+	    <event name="AuthLogin" />
+	</listener>
+	
+	<listener name="ecomDao">
+	    <event name="daoInsertBefore" />
+	    <event name="daoUpdateBefore" />
+	    <event name="daoDeleteAfter" />
+	    <event name="daoDeleteByAfter" />
+	</listener>
+	
+</events>

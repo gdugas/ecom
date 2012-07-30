@@ -1,0 +1,3 @@
+* product delete verification
+* cart total price
+* installer

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form xmlns="http://jelix.org/ns/forms/1.1">
+
+
+<hidden ref="user" />
+
+<input ref="label" required="true" maxlength="50">
+	<label>Label</label>
+</input>
+
+<input ref="receiver" required="true" maxlength="255">
+	<label>Receiver</label>
+</input>
+
+<input ref="company" maxlength="100">
+	<label>Company</label>
+</input>
+
+<textarea ref="address" required="true" maxlength="255">
+	<label>Address</label>
+</textarea>
+
+<input ref="city" required="true" maxlength="100">
+	<label>City</label>
+</input>
+
+<input ref="state" maxlength="100">
+	<label>State</label>
+</input>
+
+<input ref="postal_code" required="true" maxlength="20">
+	<label>Postal Code</label>
+</input>
+
+<input ref="country" required="true" maxlength="100">
+	<label>Country</label>
+</input>
+
+<input ref="phone" maxlength="30">
+	<label>Phone</label>
+</input>
+
+<submit ref="_submit">
+	<label>ok</label>
+</submit>
+</form>

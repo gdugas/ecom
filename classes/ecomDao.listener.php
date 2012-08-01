@@ -7,19 +7,41 @@ class ecomDaoListener extends jEventListener {
 			$record->quantity = 1;
 		}
 	}
+	
 	private function _check_deleted ($dao, $keys) {
 		jDao::get('ecom~cart')->deleteByForeignKeys($dao, serialize($keys));
 	}
 	
-	
 	function onDaoInsertBefore ($e) {
-		$this->_check_quantity($e->getParam('record'));
+		$dao = $e->getParam('dao');
+		$record = $e->getParam('record');
+		
+		// Insert product in cart: quantity must be > 0
+		if ($dao == 'ecom~cart') {
+			$this->_check_quantity($record);
+		
+		// New account: auto login generation
+		} elseif ($dao == 'ecom~account') {
+			if (! $record->login) {
+				$record->login = $record->email;
+				$record->reference = 'CL'.rand(10000,99999);
+			}
+		}
 	}
+	
 	function onDaoUpdateBefore ($e) {
-		$this->_check_quantity($e->getParam('record'));
+		$dao = $e->getParam('dao');
+		$record = $e->getParam('record');
+		
+		// Update cart: quantity must be > 0
+		if ($dao == 'ecom~cart') {
+			$this->_check_quantity($record);
+		}
 	}
 	
 	
+	
+	// Check if deleted object is in cart
 	function onDaoDeleteAfter ($e) {
 		$this->_check_deleted($this->getParam('dao'), $this->getParam('keys'));
 	}

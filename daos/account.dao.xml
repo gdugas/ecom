@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dao xmlns="http://jelix.org/ns/dao/1.0">
+    <datasources>
+        <primarytable name="ecom_account" realname="ecom_account" primarykey="login" />
+    </datasources>
+    <record>
+        <property name="login" fieldname="login" datatype="varchar" required="true" maxlength="255"/>
+        <property name="reference" fieldname="reference" datatype="varchar" required="true" maxlength="50"/>
+        <property name="email" fieldname="email" datatype="varchar" required="true" maxlength="50"/>
+        <property name="password" fieldname="password" datatype="varchar" required="true" maxlength="255" selectpattern="%s" updatepattern="" insertpattern="%s"/>
+        
+        <property name="firstname" fieldname="firstname" datatype="varchar" required="true" maxlength="100"/>
+        <property name="lastname" fieldname="lastname" datatype="varchar" required="true" maxlength="100"/>
+        <property name="civility" fieldname="civility" datatype="varchar" required="true" maxlength="20"/>
+        <!--<property name="" fieldname="" datatype="string/int/float/date"
+        required="yes" maxlength="" minlength="" regexp="" sequence=""
+        updatepattern="" insertpattern="" selectpattern=""/>-->
+    </record>
+    <factory events="insertbefore, updatebefore">
+        <method name="getByEmail" type="selectfirst">
+            <parameter name="email" />
+            <conditions>
+                <eq property="email" expr="$email" />
+            </conditions>
+        </method>
+        
+        <method name="exist" type="count">
+            <parameter name="login" />
+            <conditions>
+                <eq property="login" expr="$email" />
+            </conditions>
+        </method>
+        
+		<method name="getByLoginPassword" type="selectfirst">
+		    <parameter name="login" />
+		    <parameter name="password" />
+		
+		    <conditions>
+		        <eq property="login" expr="$login" />
+		        <eq property="password" expr="$password" />
+		    </conditions>
+		</method>
+		
+		<method name="getByLogin" type="selectfirst">
+		    <parameter name="login" />
+		    <conditions>
+		        <eq property="login" expr="$login" />
+		    </conditions>
+		</method>
+		
+		<method name="updatePassword" type="update">
+		    <parameter name="login" />
+		    <parameter name="password" />
+		
+		    <values>
+		        <value property="password" expr="$password"/>
+		    </values>
+		    <conditions>
+		        <eq property="login" expr="$login" />
+		    </conditions>
+		</method>
+		
+		<method name="deleteByLogin" type="delete">
+		    <parameter name="login" />
+		    <conditions>
+		        <eq property="login" expr="$login" />
+		    </conditions>
+		</method>
+		
+		<method name="findByLogin" type="select">
+		    <parameter name="pattern" />
+		    <conditions>
+		        <like property="login" expr="$pattern" />
+		    </conditions>
+		    <order>
+		        <orderitem property="login" way="asc" />
+		     </order>
+		</method>
+		
+		<method name="findAll" type="select">
+		    <order>
+		        <orderitem property="login" way="asc" />
+		    </order>
+		</method>
+        <!--<method name="findByStage" type="select/selectfirst/delete/update/php">
+            <parameter name="" />
+            <values>
+                <value property="" value="" />
+            </values>
+            <conditions logic="and/or">
+                <eq property="" value="" />
+            </conditions>
+            <order>
+                <orderitem property="" way="asc/desc" />
+            </order>
+            <limit offset="" count=""/>
+            <body><![CDATA[
+            ]]></body>
+        </method>-->
+    </factory>
+</dao>

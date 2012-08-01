@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dao xmlns="http://jelix.org/ns/dao/1.0">
+    <datasources>
+        <primarytable name="ecom_billing_address" realname="ecom_billing_address" primarykey="id" />
+    </datasources>
+    <record>
+        <property name="id" fieldname="id" datatype="int" autoincrement="true"/>
+        <property name="user" fieldname="user" datatype="varchar" required="true" maxlength="50"/>
+        <property name="label" fieldname="label" datatype="varchar" required="true" maxlength="50"/>
+        
+        
+        
+        <property name="receiver" fieldname="receiver" datatype="varchar" required="true" maxlength="255"/>
+        <property name="company" fieldname="company" datatype="varchar" default="" maxlength="100"/>
+        <property name="address" fieldname="address" datatype="varchar" required="true" maxlength="255"/>
+        <property name="city" fieldname="city" datatype="varchar" required="true" maxlength="100"/>
+        <property name="state" fieldname="state" datatype="varchar" default="" maxlength="100"/>
+        <property name="postal_code" fieldname="postal_code" datatype="varchar" required="true" maxlength="20"/>
+        <property name="country" fieldname="country" datatype="varchar" required="true" maxlength="100"/>
+        <property name="phone" fieldname="phone" datatype="varchar" default="" maxlength="30"/>
+        <!--<property name="" fieldname="" datatype="string/int/float/date"
+        required="yes" maxlength="" minlength="" regexp="" sequence=""
+        updatepattern="" insertpattern="" selectpattern=""/>-->
+    </record>
+    <factory>
+        <method name="findByUser" type="select">
+            <parameter name="user"/>
+            <conditions>
+                <eq property="user" expr="$user"/>
+            </conditions>
+            <order>
+                <orderitem property="label" way="asc" />
+            </order>
+        </method>
+        
+        <method name="getByUserLabel" type="selectfirst">
+            <parameter name="user" />
+            <parameter name="label" />
+            <conditions>
+                <eq property="user" expr="$user" />
+                <eq property="user" expr="$id" />
+            </conditions>
+        </method>
+        
+        <method name="getByUserId" type="selectfirst">
+            <parameter name="user" />
+            <parameter name="id" />
+            <conditions>
+                <eq property="user" expr="$user" />
+                <eq property="id" expr="$id" />
+            </conditions>
+        </method>
+        <method name="countByUserId" type="count">
+            <parameter name="user" />
+            <parameter name="id" />
+            <conditions>
+                <eq property="user" expr="$user" />
+                <eq property="id" expr="$id" />
+            </conditions>
+        </method>
+        <!--<method name="findByStage" type="select/selectfirst/delete/update/php">
+            <parameter name="" />
+            <values>
+                <value property="" value="" />
+            </values>
+            <conditions logic="and/or">
+                <eq property="" value="" />
+            </conditions>
+            <order>
+                <orderitem property="" way="asc/desc" />
+            </order>
+            <limit offset="" count=""/>
+            <body><![CDATA[
+            ]]></body>
+        </method>-->
+    </factory>
+</dao>

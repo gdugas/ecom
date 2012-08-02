@@ -43,9 +43,9 @@ class ecomDaoListener extends jEventListener {
 	
 	// Check if deleted object is in cart
 	function onDaoDeleteAfter ($e) {
-		$this->_check_deleted($this->getParam('dao'), $this->getParam('keys'));
+		$this->_check_deleted($e->getParam('dao'), $e->getParam('keys'));
 	}
 	function onDaoDeleteByAfter ($e) {
-		$this->_check_deleted($this->getParam('dao'), $this->getParam('keys'));
+		$this->_check_deleted($e->getParam('dao'), $e->getParam('keys'));
 	}
 }

@@ -3,6 +3,11 @@
 
 class registrationCtrl extends jController {
 	
+	private function _auth_dao () {
+		$conf = $GLOBALS['gJCoord']->getPlugin('auth')->config;
+		return $conf['Db']['dao'];
+	}
+	
 	function index () {
 		if (jAuth::isConnected()) {
 			$resp = $this->getResponse('redirect');
@@ -11,7 +16,7 @@ class registrationCtrl extends jController {
 		}
 		$resp = $this->getResponse('html');
 		
-		$resp->body->assign('MAIN', jZone::get('ecom~ecomRegistration'));
+		$resp->body->assignZone('MAIN', 'ecom~ecomRegistration');
 		return $resp;
 	}
 	
@@ -20,64 +25,52 @@ class registrationCtrl extends jController {
 	function savecreate() {
 		$resp = $this->getResponse('redirect');
 		
-		$redirect = $this->param('redirect',NULL);
-		$redirect_invalid = $redirect;
-		if ($redirect === NULL) {
-			$redirect = $GLOBALS['gJConfig']->startModule .'~' . $GLOBALS['gJConfig']->startAction;
-			$redirect_invalid = 'webfiltration~registration:index';
-		}
-		
-		// Point d'entre incorrect: on redirige
-		$form = jForms::get('webfiltration~registration');
+		// Point d'entre incorrect: erreur
+		$form = jForms::fill('ecom~registration');
 		if (! $form) {
-			$resp->action = 'webfiltration~registration:index';
-			return $resp;
+			throw new Exception('Form error');
 		}
-		$form->initFromRequest();
 		
-		// Formulaire invalide: on redirige
+		$redirect_valid = $this->param('registration_url_redirect',NULL);
+		$redirect_error = $this->param('registration_url_error',NULL);
+		
+		if (! $redirect_valid || ! $redirect_error) {
+			throw new Exception('Redirection error');
+		}
+		
 		if (! $form->check()) {
-			$resp->action = $redirect_invalid;
+			$resp->action = $redirect_error;
 			return $resp;
 		}
 		
-		// L'utilisateur existe et a un compte
+		// Existing account
 		$email = $form->getData('email');
 		$user = $this->_get_usr($email);
-		if ($user && jDao::get('webfiltration~account')->exist($email)) {
+		if ($user) {
 			$form->setErrorOn('email', "L'utilisateur spécifié par l'adresse mail existe déjà dans notre base de donnée");
-			$resp->action = $redirect_invalid;
+			$resp->action = $redirect_error;
 			return $resp;
 		
-		// Creation de l'utilisateur
+		// User creation
 		} else {
-			if (! $user) {
-				$random = rand(10000, 99999);
-				$login =  $random . '_' . md5($form->getData('email'));
-				$password = $form->getData('password');
-				$user = jAuth::createUserObject($login, $password);
-				$user->email = $form->getData('email');
-				jDao::get('jauthdb~jelixuser')->insert($user);
+			$random = rand(10000, 99999);
 			
-			// Utilisateur existant, et mdp invalide
-			} elseif(! jAuth::verifyPassword($user->login, $form->getData('password'))) {
-				$form->setErrorOn('email', "Mot de passe invalide");
-				$resp->action = $redirect_invalid;
-				return $resp;
-			}
+			$login =  $form->getData('email');
+			$password = $form->getData('password');
 			
 			// Creation ou association du compte
-			$form->setData('user', $user->login);
-			$form->saveToDao('webfiltration~account');
+			$form->setData('login', $login);
+			$form->saveToDao($this->_auth_dao());
 			
-			jAuth::login($user->login, $password);
+			jAuth::changePassword($login, $password);
 			
+			jAuth::login($login, $password);
 			
 			jMessage::add("Votre compte viens d'être créer");
-			jForms::destroy('webfiltration~registration');
+			jForms::destroy('ecom~registration');
 		}
 		
-		$resp->action = $redirect;
+		$resp->action = $redirect_valid;
 		return $resp;
 	}
 	
@@ -86,8 +79,7 @@ class registrationCtrl extends jController {
 		$cnd = jDao::createConditions();
 		$cnd->addCondition('email','=',$email);
 		
-		$usr = NULL;
-		foreach(jDao::get('jauthdb~jelixuser')->findBy($cnd) as $usr) { break; }
+		$usr = jDao::get($this->_auth_dao())->findBy($cnd)->fetch();
 		
 		return $usr;
 	}

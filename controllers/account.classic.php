@@ -17,7 +17,7 @@ class accountCtrl extends jController {
 		
 		$tpl = new jTpl();
 		$tpl->assign('form', $form);
-		$tpl->assign('account_billings', jDao::get('ecom~billing_address')->findByUser($user->login));
+		$tpl->assign('account_billings', jDao::get('ecom~account_address')->findByUser($user->login));
 		
 		$resp->body->assign('MAIN', $tpl->fetch('ecom~account_view'));
 		return $resp;
@@ -28,11 +28,10 @@ class accountCtrl extends jController {
 		$resp = $this->getResponse('html');
 		
 		$user = jAuth::getUserSession();
-		$form = jForms::get('ecom~account', $user->login);
+		$form = jForms::fill('ecom~account', $user->login);
 		if (! $form) {
 			$form = jForms::create('ecom~account', $user->login);
 		}
-		$form->initFromDao('ecom~account');
 		
 		$tpl = new jTpl();
 		$tpl->assign('form', $form);

@@ -4,9 +4,8 @@
         <primarytable name="ecom_account" realname="ecom_account" primarykey="login" />
     </datasources>
     <record>
-        <property name="login" fieldname="login" datatype="varchar" required="true" maxlength="255"/>
-        <property name="reference" fieldname="reference" datatype="varchar" required="true" maxlength="50"/>
-        <property name="email" fieldname="email" datatype="varchar" required="true" maxlength="50"/>
+        <property name="login" fieldname="login" datatype="varchar" required="true" maxlength="50"/>
+        <property name="email" fieldname="email" datatype="varchar" required="true" maxlength="255"/>
         <property name="password" fieldname="password" datatype="varchar" required="true" maxlength="255" selectpattern="%s" updatepattern="" insertpattern="%s"/>
         
         <property name="firstname" fieldname="firstname" datatype="varchar" required="true" maxlength="100"/>
@@ -27,7 +26,7 @@
         <method name="exist" type="count">
             <parameter name="login" />
             <conditions>
-                <eq property="login" expr="$email" />
+                <eq property="login" expr="$login" />
             </conditions>
         </method>
         

@@ -12,7 +12,20 @@ class ecomCart {
 		return serialize($pks);
 	}
 	
-	public static function current () {
-		return new ecomCartBase();
+	public static function get ($user = NULL, $session = NULL) {
+		if ($user == NULL && jAuth::isConnected()) {
+			$user = jAuth::getUserSession();
+		} else {
+			$user = NULL;
+		}
+		
+		if ($session == NULL) {
+			if (! isset($_SESSION)) {
+				session_start();
+			}
+			$session = session_id();
+		}
+		
+		return new ecomCartBase($user, $session);
 	}
 }

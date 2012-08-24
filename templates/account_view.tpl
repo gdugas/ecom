@@ -16,11 +16,11 @@
 			<tr>
 				<td>{$billing->label}</td>
 				<td>
-					<a href="{jurl 'ecom~billing:view', array('id'=>$billing->id)}">view</a>
+					<a href="{jurl 'ecom~account_address:view', array('id'=>$billing->id)}">view</a>
 				</td>
 			</tr>
 		{/foreach}
 	</tbody>
 </table>
 
-&bull; <a href="{jurl 'ecom~billing:create'}">add billing adress</a>
+&bull; <a href="{jurl 'ecom~account_address:create'}">add billing adress</a>

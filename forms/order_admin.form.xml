@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form xmlns="http://jelix.org/ns/forms/1.1">
+
+
+<input ref="reference" required="true" maxlength="50" readonly="true">
+	<label>Reference</label>
+</input>
+
+<input ref="user" required="true" maxlength="50" readonly="true">
+	<label>User</label>
+</input>
+
+<input ref="delivery" required="true" type="integer">
+	<label>Delivery</label>
+</input>
+
+<input ref="payment" required="true" maxlength="50">
+	<label>Payment</label>
+</input>
+
+<input ref="status" required="true" maxlength="25">
+	<label>Status</label>
+</input>
+
+<input ref="date_order" type="datetime" readonly="true">
+	<label>Date Order</label>
+</input>
+
+<input ref="date_valid" type="datetime" readonly="true">
+	<label>Date Valid</label>
+</input>
+
+<input ref="date_delivery" type="datetime" readonly="true">
+	<label>Date Delivery</label>
+</input>
+
+<input ref="fact_civility" required="true" maxlength="20">
+	<label>Fact Civility</label>
+</input>
+
+<input ref="fact_firstname" required="true" maxlength="100">
+	<label>Fact Firstname</label>
+</input>
+
+<input ref="fact_lastname" required="true" maxlength="100">
+	<label>Fact Lastname</label>
+</input>
+
+<input ref="fact_company" maxlength="100">
+	<label>Fact Company</label>
+</input>
+
+<input ref="fact_address" required="true" maxlength="255">
+	<label>Fact Address</label>
+</input>
+
+<input ref="fact_city" required="true" maxlength="100">
+	<label>Fact City</label>
+</input>
+
+<input ref="fact_state" maxlength="100">
+	<label>Fact State</label>
+</input>
+
+<input ref="fact_postal_code" required="true" maxlength="20">
+	<label>Fact Postal Code</label>
+</input>
+
+<input ref="fact_country" required="true" maxlength="100">
+	<label>Fact Country</label>
+</input>
+
+<input ref="fact_phone" maxlength="30">
+	<label>Fact Phone</label>
+</input>
+
+<input ref="delivery_civility" required="true" maxlength="20">
+	<label>Delivery Civility</label>
+</input>
+
+<input ref="delivery_firstname" required="true" maxlength="100">
+	<label>Delivery Firstname</label>
+</input>
+
+<input ref="delivery_lastname" required="true" maxlength="100">
+	<label>Delivery Lastname</label>
+</input>
+
+<input ref="delivery_company" maxlength="100">
+	<label>Delivery Company</label>
+</input>
+
+<input ref="delivery_address" required="true" maxlength="255">
+	<label>Delivery Address</label>
+</input>
+
+<input ref="delivery_city" required="true" maxlength="100">
+	<label>Delivery City</label>
+</input>
+
+<input ref="delivery_state" maxlength="100">
+	<label>Delivery State</label>
+</input>
+
+<input ref="delivery_postal_code" required="true" maxlength="20">
+	<label>Delivery Postal Code</label>
+</input>
+
+<input ref="delivery_country" required="true" maxlength="100">
+	<label>Delivery Country</label>
+</input>
+
+<input ref="delivery_phone" maxlength="30">
+	<label>Delivery Phone</label>
+</input>
+
+<submit ref="_submit">
+	<label>ok</label>
+</submit>
+</form>

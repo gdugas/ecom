@@ -8,8 +8,19 @@
 	<label>Label</label>
 </input>
 
-<input ref="receiver" required="true" maxlength="255">
-	<label>Receiver</label>
+<radiobuttons ref="civility" required="true">
+    <label locale="ecom~account.field.civility" />
+    <item value="mr" locale="ecom~account.field.civility.mr"/>
+    <item value="mrs" locale="ecom~account.field.civility.mrs"/>
+    <item value="miss" locale="ecom~account.field.civility.miss"/>
+</radiobuttons>
+
+<input ref="firstname" required="true" maxlength="100">
+	<label locale="ecom~account.field.firstname" />
+</input>
+
+<input ref="lastname" required="true" maxlength="100">
+	<label locale="ecom~account.field.lastname" />
 </input>
 
 <input ref="company" maxlength="100">

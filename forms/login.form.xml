@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form xmlns="http://jelix.org/ns/forms/1.1">
+
+<hidden ref="auth_url_return" />
+
+<input ref="email" required="true" maxlength="100">
+	<label locale="ecom~account.field.email" />
+</input>
+
+
+<secret ref="password" required="true">
+    <label>Password</label>
+</secret>
+
+
+<submit ref="_submit">
+	<label>Login</label>
+</submit>
+</form>

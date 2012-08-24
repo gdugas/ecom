@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form xmlns="http://jelix.org/ns/forms/1.1">
 
-
-<input ref="reference" readonly="true">
-    <label>Reference</label>
-</input>
+<hidden ref="login" />
 
 <radiobuttons ref="civility" required="true">
     <label locale="ecom~account.field.civility" />

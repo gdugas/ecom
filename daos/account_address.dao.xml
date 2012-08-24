@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dao xmlns="http://jelix.org/ns/dao/1.0">
     <datasources>
-        <primarytable name="ecom_billing_address" realname="ecom_billing_address" primarykey="id" />
+        <primarytable name="ecom_account_address" realname="ecom_account_address" primarykey="id" />
     </datasources>
     <record>
         <property name="id" fieldname="id" datatype="int" autoincrement="true"/>
         <property name="user" fieldname="user" datatype="varchar" required="true" maxlength="50"/>
         <property name="label" fieldname="label" datatype="varchar" required="true" maxlength="50"/>
         
-        
-        
-        <property name="receiver" fieldname="receiver" datatype="varchar" required="true" maxlength="255"/>
+        <property name="civility" fieldname="civility" datatype="varchar" required="true" maxlength="20"/>
+        <property name="firstname" fieldname="firstname" datatype="varchar" required="true" maxlength="100"/>
+        <property name="lastname" fieldname="lastname" datatype="varchar" required="true" maxlength="100"/>
         <property name="company" fieldname="company" datatype="varchar" default="" maxlength="100"/>
         <property name="address" fieldname="address" datatype="varchar" required="true" maxlength="255"/>
         <property name="city" fieldname="city" datatype="varchar" required="true" maxlength="100"/>
@@ -50,6 +50,7 @@
                 <eq property="id" expr="$id" />
             </conditions>
         </method>
+        
         <method name="countByUserId" type="count">
             <parameter name="user" />
             <parameter name="id" />

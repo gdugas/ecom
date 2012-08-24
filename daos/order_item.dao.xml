@@ -1,62 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dao xmlns="http://jelix.org/ns/dao/1.0">
     <datasources>
-        <primarytable name="ecom_cart" realname="ecom_cart" primarykey="id" />
+        <primarytable name="ecom_order_item" realname="ecom_order_item" primarykey="id" />
     </datasources>
     <record>
         <property name="id" fieldname="id" datatype="int" autoincrement="true"/>
-        <property name="user" fieldname="user" datatype="varchar" maxlength="50"/>
-        <property name="session" fieldname="session" datatype="varchar" required="true" maxlength="100"/>
+        <property name="order" fieldname="order" datatype="int" required="true"/>
         <property name="dao" fieldname="dao" datatype="varchar" required="true" maxlength="100"/>
         <property name="foreignkeys" fieldname="foreignkeys" datatype="varchar" required="true" maxlength="255"/>
         <property name="namefield" fieldname="namefield" datatype="varchar" required="true" maxlength="100"/>
         <property name="pricefield" fieldname="pricefield" datatype="varchar" required="true" maxlength="100"/>
+        <property name="name" fieldname="name" datatype="varchar" required="true" maxlength="255"/>
+        <property name="price" fieldname="price" datatype="float" default=""/>
         <property name="tax" fieldname="tax" datatype="float"/>
+        <property name="detail" fieldname="detail" datatype="text" default=""/>
         <property name="quantity" fieldname="quantity" datatype="int" required="true"/>
         <property name="thumbnail" fieldname="thumbnail" datatype="text" default=""/>
-        <property name="last_update" fieldname="last_update" datatype="timestamp" insertpattern="NOW()" updatepattern="NOW()" required="true"/>
-        
         <!--<property name="" fieldname="" datatype="string/int/float/date"
         required="yes" maxlength="" minlength="" regexp="" sequence=""
         updatepattern="" insertpattern="" selectpattern=""/>-->
     </record>
-    <factory events="insertbefore, updatebefore, deleteafter">
-        
-        <method name="deleteByDao" type="delete">
-            <parameter name="dao" />
+    <factory>
+        <method name="findByOrder" type="select">
+            <parameter name="order" />
             <conditions>
-                <eq property="dao" expr="$dao" />
+                <eq property="order" expr="$order" />
             </conditions>
         </method>
         
-        <method name="deleteByForeignKeys" type="delete">
-            <parameter name="dao" />
-            <parameter name="foreignkeys" />
-            <conditions>
-                <eq property="dao" expr="$dao" />
-                <eq property="foreignkeys" expr="$foreignkeys" />
-            </conditions>
-        </method>
-        
-        <method name="findBySession" type="select">
-            <parameter name="session_id" />
-            <conditions>
-                <eq property="session" expr="$session_id" />
-            </conditions>
-        </method>
-        <method name="findByUser" type="select">
-            <parameter name="user" />
-            <conditions>
-                <eq property="user" expr="$user" />
-            </conditions>
-        </method>
-        
-        <method name="getByForeignKeys" type="selectfirst">
-            <parameter name="foreignkeys" />
-            <conditions>
-                <eq property="foreignkeys" expr="$foreignkeys" />
-            </conditions>
-        </method>
         <!--<method name="findByStage" type="select/selectfirst/delete/update/php">
             <parameter name="" />
             <values>

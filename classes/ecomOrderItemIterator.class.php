@@ -1,7 +1,9 @@
 <?php 
 
 
-class ecomItemIterator implements Iterator {
+class ecomOrderItemIterator implements Iterator {
+	
+	protected $_resultset = NULL;
 	
 	function __construct($resultset) {
 		$this->_resultset = $resultset;
@@ -15,12 +17,16 @@ class ecomItemIterator implements Iterator {
 			$cnd->addCondition($field, '=', $value);
 		}
 		$product = $dao->findBy($cnd)->fetch();
-		$namefield = $item->namefield;
-		$pricefield = $item->pricefield;
 		
-		$item->name = $product->$namefield;
-		$item->price = $product->$pricefield;
 		$item->product = $product;
+		
+		$item->price			= number_format($item->price, 2, '.', ' ');
+		$item->price_tax		= number_format($item->price * $item->tax / 100, 2, '.', ' ');
+		$item->price_dutyfree	= number_format($item->price - $item->price_tax, 2, '.', ' ');
+		
+		$item->total_price		= number_format($item->price * $item->quantity, 2, '.', ' ');
+		$item->total_tax		= number_format($item->total_price * $item->tax / 100, 2, '.', ' ');
+		$item->total_dutyfree	= number_format($item->total_price - $item->total_tax, 2, '.', ' ');		
 		
 		return $item;
 	}

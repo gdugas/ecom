@@ -103,7 +103,10 @@ class ecomOrder {
 		return new ecomOrderBase($record->reference);
 	}
 	
-	public function get ($reference) {
+	public static function get ($reference) {
 		return new ecomOrderBase ($reference);
+	}
+	public static function getById ($id) {
+		return new ecomOrderBase ($id, True);
 	}
 }

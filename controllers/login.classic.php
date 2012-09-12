@@ -21,7 +21,7 @@ class loginCtrl extends jController {
     *
     */
     function in () {
-        $conf = $GLOBALS['gJCoord']->getPlugin('auth')->config;
+        $conf = jApp::coord()->getPlugin('auth')->config;
         $url_return = '/';
 
         // both after_login and after_logout config fields are required
@@ -69,7 +69,7 @@ class loginCtrl extends jController {
     */
     function out(){
         jAuth::logout();
-        $conf = $GLOBALS['gJCoord']->getPlugin ('auth')->config;
+        $conf = jApp::coord()->getPlugin ('auth')->config;
 
         if ($conf['after_logout'] == '')
             throw new jException ('jauth~autherror.no.after_logout');
@@ -89,7 +89,7 @@ class loginCtrl extends jController {
     * Shows the login form
     */
     function form() {
-        $conf = $GLOBALS['gJCoord']->getPlugin('auth')->config; 
+        $conf = jApp::coord()->getPlugin('auth')->config; 
         if (jAuth::isConnected()) {
             if ($conf['after_login'] != '') {
                 if (!($conf['enable_after_login_override'] &&

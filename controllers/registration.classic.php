@@ -4,14 +4,14 @@
 class registrationCtrl extends jController {
 	
 	private function _auth_dao () {
-		$conf = $GLOBALS['gJCoord']->getPlugin('auth')->config;
+		$conf = jApp::coord()->getPlugin('auth')->config;
 		return $conf['Db']['dao'];
 	}
 	
 	function index () {
 		if (jAuth::isConnected()) {
 			$resp = $this->getResponse('redirect');
-			$resp->action = $GLOBALS['gJConfig']->startModule .'~' . $GLOBALS['gJConfig']->startAction;
+			$resp->action = jApp::config()->startModule .'~' . jApp::config()->startAction;
 			return $resp;
 		}
 		$resp = $this->getResponse('html');

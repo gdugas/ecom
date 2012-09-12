@@ -17,6 +17,7 @@ class ecomCartBase implements Iterator {
 	
 	protected $_conditions = NULL;
 	protected $_resultset = NULL;
+	protected $_total = NULL;
 	
 	public $user = NULL;
 	public $session = NULL;
@@ -79,6 +80,8 @@ class ecomCartBase implements Iterator {
 		}
 		
 		$dao->insert($item);
+		jEvent::notify('ecomCartAddItem', array('cart' => $this, 'item' => $this->_format_item($item)));
+		
 		return True;
 	}
 	
@@ -94,7 +97,9 @@ class ecomCartBase implements Iterator {
 	
 	public function drop () {
 		$cnd = $this->_base_conditions();
+		jEvent::notify('ecomCartBeforeDropCart', array('cart' => $this, 'cnd' => $cnd));
 		$this->_resultset = jDao::get('ecom~cart')->deleteBy($cnd);
+		jEvent::notify('ecomCartDropCart', array('cart' => $this));
 	}
 	
 	public function exist ($record, $dao=NULL) {
@@ -113,6 +118,12 @@ class ecomCartBase implements Iterator {
 		return $item;
 	}
 	
+	public function total ($field) {
+		if (! $this->_total) { foreach ($this as $item) {}; }
+		if (isset($this->_total[$field])) {
+			return floatval(sprintf('%02f', $this->_total[$field]));
+		}
+	}
 	
 	public function update ($record, array $params = array()) {
 		// Setting params
@@ -136,6 +147,7 @@ class ecomCartBase implements Iterator {
 		}
 		
 		$dao->update($item);
+		jEvent::notify('ecomCartUpdateItem', array('cart' => $this, 'item' => $this->_format_item($item)));
 		return True;
 	}
 	
@@ -181,9 +193,16 @@ class ecomCartBase implements Iterator {
 		$namefield = $item->namefield;
 		$pricefield = $item->pricefield;
 		
-		$item->name = $product->$namefield;
-		$item->price = $product->$pricefield;
 		$item->product = $product;
+		$item->name = $product->$namefield;
+		
+		$item->price			= $product->$pricefield;
+		$item->price_tax		= $item->price * $item->tax / 100;
+		$item->price_full		= $item->price + $item->price_tax;
+		
+		$item->total_price		= $item->price * $item->quantity;
+		$item->total_tax		= $item->total_price * $item->tax / 100;
+		$item->total_full		= $item->total_price + $item->total_tax;
 		
 		return $item;
 	}
@@ -197,6 +216,19 @@ class ecomCartBase implements Iterator {
 		}
 		
 		$item = $this->_format_item($item);
+		
+		if (! $this->_total) {
+			$this->_total = array(
+				'price' => 0,
+				'tax' => 0,
+				'full' => 0
+			);
+		}
+		
+		$this->_total['price']		+= $item->total_price;
+		$this->_total['tax']		+= $item->total_tax;
+		$this->_total['full']		+= $item->total_full;
+		
 		return $item;
 	}
 	
@@ -244,5 +276,4 @@ class ecomCartBase implements Iterator {
 		$cnd = $this->_base_conditions();
 		$this->_resultset = $dao->findBy($cnd);
 	}
-	
 }

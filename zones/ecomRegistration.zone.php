@@ -11,8 +11,7 @@ class ecomRegistrationZone extends jZone {
 			$form = jForms::create('ecom~registration');
 		}
 		
-		$coord = $GLOBALS['gJCoord'];
-		$currentUrl = $coord->moduleName . '~' . $coord->actionName;
+		$currentUrl = jApp::coord()->moduleName . '~' . jApp::coord()->actionName;
 		
 		$form->setData('registration_url_redirect', $this->param('registration_url_redirect', $currentUrl));
 		$form->setData('registration_url_error', $this->param('registration_url_error', $currentUrl));

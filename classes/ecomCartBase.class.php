@@ -2,6 +2,7 @@
 
 jClasses::inc('ecom~ecomContentManager');
 jClasses::inc('ecom~ecomCart');
+jClasses::inc('ecom~ecomOrder');
 
 /*
  * Methods:
@@ -81,7 +82,7 @@ class ecomCartBase extends ecomContentManager {
 		}
 		
 		$dao->insert($item);
-		jEvent::notify('ecomCartAddItem', array('cart' => $this, 'i' => $item->id));
+		jEvent::notify('ecomCartAddItem', array('cart' => $this, 'id' => $item->id));
 		
 		return True;
 	}
@@ -120,7 +121,6 @@ class ecomCartBase extends ecomContentManager {
 		
 		return $item;
 	}
-	
 	
 	public function update ($record, array $params = array()) {
 		// Setting params

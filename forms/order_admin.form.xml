@@ -26,12 +26,16 @@
 	<label>Date Order</label>
 </input>
 
-<input ref="date_valid" type="datetime" readonly="true">
-	<label>Date Valid</label>
+<input ref="date_ongoing" type="datetime" readonly="true">
+	<label>Date Ongoing</label>
 </input>
 
-<input ref="date_delivery" type="datetime" readonly="true">
-	<label>Date Delivery</label>
+<input ref="date_sent" type="datetime" readonly="true">
+	<label>Date Sent</label>
+</input>
+
+<input ref="date_canceled" type="datetime" readonly="true">
+	<label>Date Canceled</label>
 </input>
 
 <input ref="fact_civility" required="true" maxlength="20">

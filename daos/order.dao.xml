@@ -12,8 +12,9 @@
         <property name="status" fieldname="status" datatype="varchar" required="true" maxlength="25"/>
         
         <property name="date_order" fieldname="date_order" datatype="timestamp" default="" insertpattern="NOW()"/>
-        <property name="date_valid" fieldname="date_valid" datatype="timestamp" default=""/>
-        <property name="date_delivery" fieldname="date_delivery" datatype="timestamp" default=""/>
+        <property name="date_ongoing" fieldname="date_ongoing" datatype="timestamp" default=""/>
+        <property name="date_sent" fieldname="date_sent" datatype="timestamp" default=""/>
+        <property name="date_canceled" fieldname="date_canceled" datatype="timestamp" default=""/>
         
         <property name="fact_civility" fieldname="fact_civility" datatype="varchar" required="true" maxlength="20"/>
         <property name="fact_firstname" fieldname="fact_firstname" datatype="varchar" required="true" maxlength="100"/>
@@ -45,6 +46,27 @@
             <parameter name="reference" />
             <conditions>
                 <eq property="reference" expr="$reference" />
+            </conditions>
+        </method>
+        
+        <method name="countCanceled" type="count">
+            <conditions>
+                <eq property="status" value="canceled" />
+            </conditions>
+        </method>
+        <method name="countOngoing" type="count">
+            <conditions>
+                <eq property="status" value="ongoing" />
+            </conditions>
+        </method>
+        <method name="countSent" type="count">
+            <conditions>
+                <eq property="status" value="sent" />
+            </conditions>
+        </method>
+        <method name="countWaiting" type="count">
+            <conditions>
+                <eq property="status" value="waiting" />
             </conditions>
         </method>
         

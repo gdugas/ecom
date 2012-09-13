@@ -7,20 +7,29 @@
 			<th>Prix</th>
 			<th>Quantité</th>
 			<th>Total</th>
-			<th>Editer</th>
+			{if $editable}
+				<th>Editer</th>
+			{/if}
 		</tr>
 	</thead>
 	<tbody>
-		{foreach $cart as $item}
+		{foreach $cart->items() as $item}
 			<tr class="{cycle array('odd','even')}" oid="{$item->id}">
 				<td class="col-name">{$item->name}</td>
 				<td class="col-price">{$item->price}</td>
-				<td class="col-qtt"><input type="text" name="qtt" value="{$item->quantity}"></td>
+				<td class="col-qtt">
+					{if $editable}
+						<input type="text" name="qtt" value="{$item->quantity}"></td>
+					{else}
+						{$item->quantity}
+					{/if}
 				<td class="col-total">{$item->price * $item->quantity}</td>
-				<td class="col-edit">
-					<a class="cart-button-edit" href="{jurl 'ecom~cart:update', array('id' => $item->id, 'redirect' => $currenturl)}"><span class="cart-label-edit cart-label">edit</span></a>
-					<a class="cart-button-delete" href="{jurl 'ecom~cart:delete', array('id' => $item->id, 'redirect' => $currenturl)}"><span class="cart-label-delete cart-label">delete</span></a>
-				</td>
+				{if $editable}
+					<td class="col-edit">
+						<a class="cart-button-edit" href="{jurl 'ecom~cart:update', array('id' => $item->id, 'redirect' => $currenturl)}"><span class="cart-label-edit cart-label">edit</span></a>
+						<a class="cart-button-delete" href="{jurl 'ecom~cart:delete', array('id' => $item->id, 'redirect' => $currenturl)}"><span class="cart-label-delete cart-label">delete</span></a>
+					</td>
+				{/if}
 			</tr>
 		{/foreach}
 	</tbody>

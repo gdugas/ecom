@@ -12,6 +12,7 @@ class ecomCartZone extends jZone {
 		
 		jClasses::inc('ecom~ecomCart');
 		$this->_tpl->assign('cart', ecomCart::get());
+		$this->_tpl->assign('editable', $this->param('editable', True));
 		$this->_tpl->assign('currenturl', urlencode(jUrl::getCurrentUrl()));
 	}
 }

@@ -5,6 +5,7 @@ jClasses::inc('ecom~ecomOrderBase');
 
 class ecomOrder {
 	
+	
 	public static function genRef ($prefix='C') {
 		return uniqid($prefix);
 	}
@@ -15,7 +16,8 @@ class ecomOrder {
 			'address_delivery' => NULL,
 			'address_facturation' => NULL,
 			'delivery' => NULL,
-			'payment' => NULL
+			'payment' => NULL,
+			'status' => 'waiting'
 		);
 		
 		// User control
@@ -57,7 +59,7 @@ class ecomOrder {
 		$record->reference = $params['reference'];
 		$record->delivery = $params['delivery'];
 		$record->payment = $params['payment'];
-		$record->status = 'ongoing';
+		$record->status = $params['status'];
 		
 		$address_fields = array(
 			'civility', 'firstname', 'lastname', 'company', 'address',
@@ -77,7 +79,7 @@ class ecomOrder {
 		
 		
 		// Adding cart items to order
-		foreach($cart as $item) {
+		foreach($cart->items() as $item) {
 			$orderitem = jDao::createRecord('ecom~order_item');
 			$product = $item->product; 
 			

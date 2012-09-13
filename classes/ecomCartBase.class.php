@@ -1,5 +1,6 @@
 <?php 
 
+jClasses::inc('ecom~ecomContentManager');
 jClasses::inc('ecom~ecomCart');
 
 /*
@@ -13,11 +14,10 @@ jClasses::inc('ecom~ecomCart');
  * 			- pricefield (default: price)
  * 			- thumbnail (default: NULL)
  */
-class ecomCartBase implements Iterator {
+
+class ecomCartBase extends ecomContentManager {
 	
 	protected $_conditions = NULL;
-	protected $_resultset = NULL;
-	protected $_total = NULL;
 	
 	public $user = NULL;
 	public $session = NULL;
@@ -37,9 +37,10 @@ class ecomCartBase implements Iterator {
 			'namefield' => 'name',
 			'pricefield' => 'price',
 			'thumbnail' => NULL,
-			'tax' => NULL, 
+			'tax' => NULL,
 			'dao' => NULL
 		);
+		
 		$params = array_merge($defaults,$params);
 		$quantity = $params['quantity'];
 		
@@ -80,25 +81,27 @@ class ecomCartBase implements Iterator {
 		}
 		
 		$dao->insert($item);
-		jEvent::notify('ecomCartAddItem', array('cart' => $this, 'item' => $this->_format_item($item)));
+		jEvent::notify('ecomCartAddItem', array('cart' => $this, 'i' => $item->id));
 		
 		return True;
 	}
 	
 	public function count () {
 		$cnd = $this->_base_conditions();
-		return $this->_resultset = jDao::get('ecom~cart')->countBy($cnd);
+		return jDao::get('ecom~cart')->countBy($cnd);
 	}
 	
 	public function delete ($record, $dao=NULL) {
 		$cnd = $this->_fk_conditions($record, $dao);
 		jDao::get('ecom~cart')->deleteBy($cnd);
+		$this->_init_resultset();
 	}
 	
 	public function drop () {
 		$cnd = $this->_base_conditions();
 		jEvent::notify('ecomCartBeforeDropCart', array('cart' => $this, 'cnd' => $cnd));
-		$this->_resultset = jDao::get('ecom~cart')->deleteBy($cnd);
+		jDao::get('ecom~cart')->deleteBy($cnd);
+		$this->_init_resultset();
 		jEvent::notify('ecomCartDropCart', array('cart' => $this));
 	}
 	
@@ -118,12 +121,6 @@ class ecomCartBase implements Iterator {
 		return $item;
 	}
 	
-	public function total ($field) {
-		if (! $this->_total) { foreach ($this as $item) {}; }
-		if (isset($this->_total[$field])) {
-			return floatval(sprintf('%02f', $this->_total[$field]));
-		}
-	}
 	
 	public function update ($record, array $params = array()) {
 		// Setting params
@@ -155,7 +152,7 @@ class ecomCartBase implements Iterator {
 	
 	
 	
-	protected function _base_conditions () {
+	private function _base_conditions () {
 		$cnd = jDao::createConditions();
 		$cnd->startGroup('OR');
 		if ($this->user) {
@@ -167,7 +164,7 @@ class ecomCartBase implements Iterator {
 		return $cnd;
 	}
 	
-	protected function _fk_conditions ($record, $dao) {
+	private function _fk_conditions ($record, $dao) {
 		$cnd = $this->_base_conditions();
 		$cnd->addCondition('foreignkeys', '=', ecomCart::foreignkeys($record));
 		
@@ -181,86 +178,6 @@ class ecomCartBase implements Iterator {
 		
 		return $cnd;
 	}
-	
-	protected function _format_item ($item) {
-		$dao = jDao::get($item->dao);
-		
-		$cnd = jDao::createConditions();
-		foreach (unserialize($item->foreignkeys) as $field => $value) {
-			$cnd->addCondition($field, '=', $value);
-		}
-		$product = $dao->findBy($cnd)->fetch();
-		$namefield = $item->namefield;
-		$pricefield = $item->pricefield;
-		
-		$item->product = $product;
-		$item->name = $product->$namefield;
-		
-		$item->price			= $product->$pricefield;
-		$item->price_tax		= $item->price * $item->tax / 100;
-		$item->price_full		= $item->price + $item->price_tax;
-		
-		$item->total_price		= $item->price * $item->quantity;
-		$item->total_tax		= $item->total_price * $item->tax / 100;
-		$item->total_full		= $item->total_price + $item->total_tax;
-		
-		return $item;
-	}
-	
-	
-	// Item iterator
-	public function current () {
-		$item = $this->_resultset->current();
-		if (! $item) {
-			return $item;
-		}
-		
-		$item = $this->_format_item($item);
-		
-		if (! $this->_total) {
-			$this->_total = array(
-				'price' => 0,
-				'tax' => 0,
-				'full' => 0
-			);
-		}
-		
-		$this->_total['price']		+= $item->total_price;
-		$this->_total['tax']		+= $item->total_tax;
-		$this->_total['full']		+= $item->total_full;
-		
-		return $item;
-	}
-	
-	public function key () {
-		if (! method_exists($this->_resultset, 'key')) {
-			return False;
-		} else {
-			return $this->_resultset->key();
-		}
-	}
-	public function next () {
-		if (! method_exists($this->_resultset, 'next')) {
-			return ;
-		} else {
-			return $this->_resultset->next();
-		}
-	}
-	public function rewind () {
-		if (! method_exists($this->_resultset, 'rewind')) {
-			return;
-		} else {
-			return $this->_resultset->rewind();
-		}
-	}
-	public function valid () {
-		if (! method_exists($this->_resultset, 'valid')) {
-			return False;
-		} else {
-			return $this->_resultset->valid();
-		}
-	}
-	
 	
 	private function _init_resultset () {
 		$dao = jDao::get('ecom~cart');

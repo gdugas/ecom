@@ -1,7 +1,7 @@
 <?php 
 
 
-class ecomOrderItemIterator implements Iterator {
+class ecomItemIterator implements Iterator {
 	
 	protected $_resultset = NULL;
 	
@@ -9,7 +9,8 @@ class ecomOrderItemIterator implements Iterator {
 		$this->_resultset = $resultset;
 	}
 	
-	protected function _format_item ($item) {
+	
+	private function _format_item ($item) {
 		$dao = jDao::get($item->dao);
 		
 		$cnd = jDao::createConditions();
@@ -17,8 +18,12 @@ class ecomOrderItemIterator implements Iterator {
 			$cnd->addCondition($field, '=', $value);
 		}
 		$product = $dao->findBy($cnd)->fetch();
+		$namefield = $item->namefield;
+		$pricefield = $item->pricefield;
 		
-		$item->product = $product;
+		$item->product	= $product;
+		$item->name		= $product->$namefield;
+		$item->price	= $product->$pricefield;
 		
 		$item->price			= number_format($item->price, 2, '.', ' ');
 		$item->price_tax		= number_format($item->price * $item->tax / 100, 2, '.', ' ');
@@ -50,6 +55,7 @@ class ecomOrderItemIterator implements Iterator {
 			return $this->_resultset->key();
 		}
 	}
+	
 	public function next () {
 		if (! method_exists($this->_resultset, 'next')) {
 			return ;
@@ -57,6 +63,7 @@ class ecomOrderItemIterator implements Iterator {
 			return $this->_resultset->next();
 		}
 	}
+	
 	public function rewind () {
 		if (! method_exists($this->_resultset, 'rewind')) {
 			return;
@@ -64,6 +71,7 @@ class ecomOrderItemIterator implements Iterator {
 			return $this->_resultset->rewind();
 		}
 	}
+	
 	public function valid () {
 		if (! method_exists($this->_resultset, 'valid')) {
 			return False;

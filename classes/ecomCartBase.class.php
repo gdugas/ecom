@@ -82,7 +82,7 @@ class ecomCartBase extends ecomContentManager {
 		}
 		
 		$dao->insert($item);
-		jEvent::notify('ecomCartAddItem', array('cart' => $this, 'id' => $item->id));
+		jEvent::notify('ecomCartAddItem', array('cart' => $this, 'item' => ecomContentManager::format_item($item)));
 		
 		return True;
 	}
@@ -116,7 +116,7 @@ class ecomCartBase extends ecomContentManager {
 		$cnd->addCondition('id', '=', $id);
 		$item = jDao::get('ecom~cart')->findBy($cnd)->fetch();
 		if ($item) {
-			$item = $this->_format_item($item);
+			$item = ecomContentManager::format_item($item);
 		}
 		
 		return $item;
@@ -144,22 +144,20 @@ class ecomCartBase extends ecomContentManager {
 		}
 		
 		$dao->update($item);
-		jEvent::notify('ecomCartUpdateItem', array('cart' => $this, 'item' => $this->_format_item($item)));
+		jEvent::notify('ecomCartUpdateItem', array('cart' => $this, 'item' => ecomContentManager::format_item($item)));
 		return True;
 	}
 	
 	
 	
-	
-	
 	private function _base_conditions () {
 		$cnd = jDao::createConditions();
-		$cnd->startGroup('OR');
 		if ($this->user) {
 			$cnd->addCondition('user','=',$this->user->login);
+		} else {
+			$cnd->addCondition('user', '=', NULL);
 		}
 		$cnd->addCondition('session', '=', $this->session);
-		$cnd->endGroup();
 		
 		return $cnd;
 	}
@@ -181,14 +179,6 @@ class ecomCartBase extends ecomContentManager {
 	
 	private function _init_resultset () {
 		$dao = jDao::get('ecom~cart');
-		if (! $this->user) {
-			$cnd = $this->_base_conditions();
-			$cnd->addCondition('user', '!=', NULL);
-			$rec = $dao->findBy($cnd)->fetch();
-			if ($rec) {
-				$this->user = jAuth::getUser($rec->user);
-			}
-		}
 		
 		$cnd = $this->_base_conditions();
 		$this->_resultset = $dao->findBy($cnd);

@@ -23,8 +23,9 @@ class account_addressCtrl extends jControllerDaoCrud {
 	}
 	
 	// Some pre validations
-	function index() {
-		return $this->_account_redirect();
+	function _indexSetConditions($cnd) {
+		$user = jAuth::getUserSession();
+		$cnd->addCondition('user', '=', $user->login);
 	}
 	
 	function view () {

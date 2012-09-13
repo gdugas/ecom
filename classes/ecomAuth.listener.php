@@ -7,7 +7,10 @@ class ecomAuthListener extends jEventListener {
 			session_start();
 		}
 		$dao = jDao::get('ecom~cart');
-		$items = $dao->findBySession(session_id());
+		$cnd = jDao::createConditions();
+		$cnd->addCondition('session', '=', session_id());
+		$cnd->addCondition('user', '=', NULL);
+		$items = $dao->findBy($cnd);
 		foreach ($items as $item) {
 			$item->user = $user->login;
 			$dao->update($item);

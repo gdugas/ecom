@@ -1,5 +1,6 @@
 <?php 
 
+jClasses::inc('ecom~ecomContentManager');
 
 class ecomItemIterator implements Iterator {
 	
@@ -10,33 +11,6 @@ class ecomItemIterator implements Iterator {
 	}
 	
 	
-	private function _format_item ($item) {
-		$dao = jDao::get($item->dao);
-		
-		$cnd = jDao::createConditions();
-		foreach (unserialize($item->foreignkeys) as $field => $value) {
-			$cnd->addCondition($field, '=', $value);
-		}
-		$product = $dao->findBy($cnd)->fetch();
-		$namefield = $item->namefield;
-		$pricefield = $item->pricefield;
-		
-		$item->product	= $product;
-		$item->name		= $product->$namefield;
-		$item->price	= $product->$pricefield;
-		
-		$item->price			= number_format($item->price, 2, '.', ' ');
-		$item->price_tax		= number_format($item->price * $item->tax / 100, 2, '.', ' ');
-		$item->price_dutyfree	= number_format($item->price - $item->price_tax, 2, '.', ' ');
-		
-		$item->total_price		= number_format($item->price * $item->quantity, 2, '.', ' ');
-		$item->total_tax		= number_format($item->total_price * $item->tax / 100, 2, '.', ' ');
-		$item->total_dutyfree	= number_format($item->total_price - $item->total_tax, 2, '.', ' ');		
-		
-		return $item;
-	}
-	
-	
 	// Item iterator
 	public function current () {
 		$item = $this->_resultset->current();
@@ -44,7 +18,7 @@ class ecomItemIterator implements Iterator {
 			return $item;
 		}
 		
-		$item = $this->_format_item($item);
+		$item = ecomContentManager::format_item($item);
 		return $item;
 	}
 	

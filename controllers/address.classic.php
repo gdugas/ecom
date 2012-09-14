@@ -1,13 +1,23 @@
 <?php 
 
-class account_addressCtrl extends jControllerDaoCrud {
+class addressCtrl extends jControllerDaoCrud {
 	
 	public $pluginParams = array(
 		'*' => array('auth.required' => True),
 	);
 	
-	protected $dao = 'ecom~account_address';
-	protected $form = 'ecom~account_address';
+	protected $dao = 'ecom~address';
+	protected $form = 'ecom~address';
+	
+	protected $listTemplate = 'ecom~address_list';
+    protected $editTemplate = 'ecom~address_edit';
+    protected $viewTemplate = 'ecom~address_view';
+	
+	protected $propertiesForList = array(
+		'label','civility', 'firstname', 'lastname', 'company',
+		'address', 'city', 'state', 'postal_code', 'country', 'phone');
+	
+	
 	
 	private function _account_redirect () {
 		$resp = $this->getResponse('redirect');
@@ -19,7 +29,7 @@ class account_addressCtrl extends jControllerDaoCrud {
 		$user = jAuth::getUserSession();
 		$id = $this->param('id', NULL);
 		
-		return jDao::get('ecom~account_address')->countByUserId($user->login, $id);
+		return jDao::get($this->dao)->countByUserId($user->login, $id);
 	}
 	
 	// Some pre validations

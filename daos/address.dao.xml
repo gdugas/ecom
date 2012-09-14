@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dao xmlns="http://jelix.org/ns/dao/1.0">
     <datasources>
-        <primarytable name="ecom_account_address" realname="ecom_account_address" primarykey="id" />
+        <primarytable name="ecom_address" realname="ecom_address" primarykey="id" />
     </datasources>
     <record>
         <property name="id" fieldname="id" datatype="int" autoincrement="true"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form xmlns="http://jelix.org/ns/forms/1.1">
 
-<hidden ref="delivery"/>
+<input ref="delivery"/>
 <hidden ref="payment"/>
 <hidden ref="address_facturation"/>
 <hidden ref="address_delivery"/>

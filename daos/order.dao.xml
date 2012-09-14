@@ -48,6 +48,12 @@
                 <eq property="reference" expr="$reference" />
             </conditions>
         </method>
+        <method name="findByUser" type="select">
+            <parameter name="user" />
+            <conditions>
+                <eq property="user" expr="$user" />
+            </conditions>
+        </method>
         
         <method name="countCanceled" type="count">
             <conditions>

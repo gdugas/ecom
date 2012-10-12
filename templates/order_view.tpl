@@ -28,7 +28,7 @@
 	{if $order->fact_company}{$order->fact_company}<br />{/if}
 	{$order->fact_civility} {$order->fact_firstname} {$order->fact_lastname}<br />
 	{$order->fact_address|nl2br}<br />
-	{$order->fact_postal_code} {$order->fact_city}<br />
+	{$order->fact_zip_code} {$order->fact_city}<br />
 	{$order->fact_country}
 </p>
 
@@ -39,7 +39,7 @@
 	{if $order->delivery_company}{$order->delivery_company}<br />{/if}
 	{$order->delivery_civility} {$order->delivery_firstname} {$order->delivery_lastname}<br />
 	{$order->delivery_address|nl2br}<br />
-	{$order->delivery_postal_code} {$order->delivery_city}<br />
+	{$order->delivery_zip_code} {$order->delivery_city}<br />
 	{$order->delivery_country}
 </p>
 

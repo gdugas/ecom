@@ -66,8 +66,8 @@
 	<label>Fact State</label>
 </input>
 
-<input ref="fact_postal_code" required="true" maxlength="20">
-	<label>Fact Postal Code</label>
+<input ref="fact_zip_code" required="true" maxlength="20">
+	<label>Fact Zip Code</label>
 </input>
 
 <input ref="fact_country" required="true" maxlength="100">
@@ -106,8 +106,8 @@
 	<label>Delivery State</label>
 </input>
 
-<input ref="delivery_postal_code" required="true" maxlength="20">
-	<label>Delivery Postal Code</label>
+<input ref="delivery_zip_code" required="true" maxlength="20">
+	<label>Delivery Zip Code</label>
 </input>
 
 <input ref="delivery_country" required="true" maxlength="100">

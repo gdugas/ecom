@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form xmlns="http://jelix.org/ns/forms/1.1">
+
+
+<input ref="transport" required="true" type="integer">
+	<label>Transport</label>
+</input>
+
+<input ref="country" required="true" maxlength="32">
+	<label>Country</label>
+</input>
+
+<input ref="zone_code" required="true" maxlength="64">
+	<label>Zone code</label>
+</input>
+
+<input ref="wmin" required="true" type="integer">
+	<label>Wmin</label>
+</input>
+
+<input ref="wmax" required="true" type="integer">
+	<label>Wmax</label>
+</input>
+
+<input ref="price" required="true" type="decimal">
+	<label>Price</label>
+</input>
+
+<input ref="currency" required="true" maxlength="3">
+	<label>Currency</label>
+</input>
+
+<input ref="tax" required="true" type="decimal">
+	<label>Tax</label>
+</input>
+
+<submit ref="_submit">
+	<label>ok</label>
+</submit>
+</form>

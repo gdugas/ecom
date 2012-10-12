@@ -23,7 +23,7 @@
         <property name="fact_address" fieldname="fact_address" datatype="varchar" required="true" maxlength="255"/>
         <property name="fact_city" fieldname="fact_city" datatype="varchar" required="true" maxlength="100"/>
         <property name="fact_state" fieldname="fact_state" datatype="varchar" default="" maxlength="100"/>
-        <property name="fact_postal_code" fieldname="fact_postal_code" datatype="varchar" required="true" maxlength="20"/>
+        <property name="fact_zip_code" fieldname="fact_zip_code" datatype="varchar" required="true" maxlength="20"/>
         <property name="fact_country" fieldname="fact_country" datatype="varchar" required="true" maxlength="100"/>
         <property name="fact_phone" fieldname="fact_phone" datatype="varchar" default="" maxlength="30"/>
         
@@ -34,7 +34,7 @@
         <property name="delivery_address" fieldname="delivery_address" datatype="varchar" required="true" maxlength="255"/>
         <property name="delivery_city" fieldname="delivery_city" datatype="varchar" required="true" maxlength="100"/>
         <property name="delivery_state" fieldname="delivery_state" datatype="varchar" default="" maxlength="100"/>
-        <property name="delivery_postal_code" fieldname="delivery_postal_code" datatype="varchar" required="true" maxlength="20"/>
+        <property name="delivery_zip_code" fieldname="delivery_zip_code" datatype="varchar" required="true" maxlength="20"/>
         <property name="delivery_country" fieldname="delivery_country" datatype="varchar" required="true" maxlength="100"/>
         <property name="delivery_phone" fieldname="delivery_phone" datatype="varchar" default="" maxlength="30"/>
         <!--<property name="" fieldname="" datatype="string/int/float/date"

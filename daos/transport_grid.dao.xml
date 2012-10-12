@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dao xmlns="http://jelix.org/ns/dao/1.0">
+    <datasources>
+        <primarytable name="ecom_transport_grid" realname="ecom_transport_grid" primarykey="id" />
+        <foreigntable name="ecom_transport" realname="ecom_transport" primarykey="id" onforeignkey="transport" />
+    </datasources>
+    <record>
+        <property name="id" fieldname="id" datatype="int" autoincrement="true"/>
+        
+        <property name="transport" fieldname="transport" datatype="int" required="true"/>
+        <!-- FOREIGN TRANSPORT -->
+        <property name="transport_name" fieldname="name" datatype="varchar" required="true" maxlength="100" table="ecom_transport"/>
+        <property name="transport_company" fieldname="company" datatype="varchar" required="true" maxlength="100" table="ecom_transport"/>
+        
+        <property name="country" fieldname="country" datatype="varchar" required="true" maxlength="32"/>
+        <property name="zone_code" fieldname="zone_code" datatype="varchar" required="true" maxlength="64"/>
+        
+        <property name="wmin" fieldname="wmin" datatype="int" required="true"/>
+        <property name="wmax" fieldname="wmax" datatype="int" required="true"/>
+        
+        <property name="price" fieldname="price" datatype="float" required="true"/>
+        <property name="currency" fieldname="currency" datatype="varchar" required="true" maxlength="3"/><!-- See ISO 4217 -->
+        <property name="tax" fieldname="tax" datatype="float" required="true"/>
+        <!--<property name="" fieldname="" datatype="string/int/float/date"
+        required="yes" maxlength="" minlength="" regexp="" sequence=""
+        updatepattern="" insertpattern="" selectpattern=""/>-->
+    </record>
+    <factory>
+        <method name="findByTransport" type="select">
+            <parameter name="transport" />
+            <conditions>
+                <eq property="transport" expr="$transport" />
+            </conditions>
+        </method>
+        
+        <method name="getGridCase" type="selectfirst">
+            <parameter name="transport" />
+            <parameter name="zone_code" />
+            <parameter name="weight" />
+            <conditions>
+                <eq property="transport" expr="$transport" />
+                <eq property="zone_code" expr="$zone_code" />
+                <lt property="wmax" expr="$weight" />
+                <gt property="wmin" expr="$weight" />
+            </conditions>
+        </method>
+        
+        <!--<method name="findByStage" type="select/selectfirst/delete/update/php">
+            <parameter name="" />
+            <values>
+                <value property="" value="" />
+            </values>
+            <conditions logic="and/or">
+                <eq property="" value="" />
+            </conditions>
+            <order>
+                <orderitem property="" way="asc/desc" />
+            </order>
+            <limit offset="" count=""/>
+            <body><![CDATA[
+            ]]></body>
+        </method>-->
+    </factory>
+</dao>

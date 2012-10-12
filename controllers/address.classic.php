@@ -15,7 +15,7 @@ class addressCtrl extends jControllerDaoCrud {
 	
 	protected $propertiesForList = array(
 		'label','civility', 'firstname', 'lastname', 'company',
-		'address', 'city', 'state', 'postal_code', 'country', 'phone');
+		'address', 'city', 'state', 'zip_code', 'country', 'phone');
 	
 	
 	

@@ -15,7 +15,7 @@
         <property name="address" fieldname="address" datatype="varchar" required="true" maxlength="255"/>
         <property name="city" fieldname="city" datatype="varchar" required="true" maxlength="100"/>
         <property name="state" fieldname="state" datatype="varchar" default="" maxlength="100"/>
-        <property name="postal_code" fieldname="postal_code" datatype="varchar" required="true" maxlength="20"/>
+        <property name="zip_code" fieldname="zip_code" datatype="varchar" required="true" maxlength="20"/>
         <property name="country" fieldname="country" datatype="varchar" required="true" maxlength="100"/>
         <property name="phone" fieldname="phone" datatype="varchar" default="" maxlength="30"/>
         <!--<property name="" fieldname="" datatype="string/int/float/date"

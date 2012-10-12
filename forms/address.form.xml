@@ -39,8 +39,8 @@
 	<label>State</label>
 </input>
 
-<input ref="postal_code" required="true" maxlength="20">
-	<label>Postal Code</label>
+<input ref="zip_code" required="true" maxlength="20">
+	<label>Zip Code</label>
 </input>
 
 <input ref="country" required="true" maxlength="100">

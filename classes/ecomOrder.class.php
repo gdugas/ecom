@@ -63,7 +63,7 @@ class ecomOrder {
 		
 		$address_fields = array(
 			'civility', 'firstname', 'lastname', 'company', 'address',
-			'city', 'state', 'postal_code', 'country', 'phone'
+			'city', 'state', 'zip_code', 'country', 'phone'
 		);
 		
 		// Setting addresses

@@ -3,58 +3,29 @@
     <datasources>
         <primarytable name="ecom_cart" realname="ecom_cart" primarykey="id" />
     </datasources>
-    <record>
+    <record extends="ecom~ecomCart">
         <property name="id" fieldname="id" datatype="int" autoincrement="true"/>
-        <property name="user" fieldname="user" datatype="varchar" maxlength="50"/>
-        <property name="session" fieldname="session" datatype="varchar" required="true" maxlength="100"/>
-        <property name="dao" fieldname="dao" datatype="varchar" required="true" maxlength="100"/>
-        <property name="foreignkeys" fieldname="foreignkeys" datatype="varchar" required="true" maxlength="255"/>
-        <property name="namefield" fieldname="namefield" datatype="varchar" required="true" maxlength="100"/>
-        <property name="pricefield" fieldname="pricefield" datatype="varchar" required="true" maxlength="100"/>
-        <property name="tax" fieldname="tax" datatype="float"/>
-        <property name="quantity" fieldname="quantity" datatype="int" required="true"/>
-        <property name="thumbnail" fieldname="thumbnail" datatype="text" default=""/>
-        <property name="last_update" fieldname="last_update" datatype="timestamp" insertpattern="NOW()" updatepattern="NOW()" required="true"/>
-        
+        <property name="user" fieldname="user" datatype="varchar" default="" maxlength="50"/>
+        <property name="session" fieldname="session" datatype="varchar" maxlength="50" required="true"/>
+        <property name="price" fieldname="price" datatype="float" required="true" default="0"/>
+        <property name="price_full" fieldname="price_full" datatype="float" required="true" default="0"/>
+        <property name="date" fieldname="date" datatype="datetime" required="true" insertpattern="NOW()"/>
+        <property name="last_update" fieldname="last_update" datatype="datetime" required="true" insertpattern="NOW()" updatepattern="NOW()"/>
         <!--<property name="" fieldname="" datatype="string/int/float/date"
         required="yes" maxlength="" minlength="" regexp="" sequence=""
         updatepattern="" insertpattern="" selectpattern=""/>-->
     </record>
-    <factory events="insertbefore, updatebefore, deleteafter">
-        
-        <method name="deleteByDao" type="delete">
-            <parameter name="dao" />
-            <conditions>
-                <eq property="dao" expr="$dao" />
-            </conditions>
-        </method>
-        
-        <method name="deleteByForeignKeys" type="delete">
-            <parameter name="dao" />
-            <parameter name="foreignkeys" />
-            <conditions>
-                <eq property="dao" expr="$dao" />
-                <eq property="foreignkeys" expr="$foreignkeys" />
-            </conditions>
-        </method>
-        
-        <method name="findBySession" type="select">
-            <parameter name="session_id" />
-            <conditions>
-                <eq property="session" expr="$session_id" />
-            </conditions>
-        </method>
-        <method name="findByUser" type="select">
+    <factory events="insertafter, insertbefore, updateafter, updatebefore, deletebefore, deletebybefore">
+        <method name="getByUser" type="selectfirst">
             <parameter name="user" />
             <conditions>
                 <eq property="user" expr="$user" />
             </conditions>
         </method>
-        
-        <method name="getByForeignKeys" type="selectfirst">
-            <parameter name="foreignkeys" />
+        <method name="getBySession" type="selectfirst">
+            <parameter name="session" />
             <conditions>
-                <eq property="foreignkeys" expr="$foreignkeys" />
+                <eq property="session" expr="$session" />
             </conditions>
         </method>
         <!--<method name="findByStage" type="select/selectfirst/delete/update/php">

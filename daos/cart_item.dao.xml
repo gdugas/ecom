@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dao xmlns="http://jelix.org/ns/dao/1.0">
     <datasources>
-        <primarytable name="ecom_order_item" realname="ecom_order_item" primarykey="id" />
+        <primarytable name="ecom_cart_item" realname="ecom_cart_item" primarykey="id" />
     </datasources>
-    <record extends="ecom~ecomOrderItem">
+    <record extends="ecom~ecomCartItem">
         <property name="id" fieldname="id" datatype="int" autoincrement="true"/>
-        <property name="order_id" fieldname="order_id" datatype="int" required="true"/>
+        <property name="cart_id" fieldname="cart_id" datatype="int" required="true"/>
         <property name="dao" fieldname="dao" datatype="varchar" required="true" maxlength="100"/>
         <property name="foreignkeys" fieldname="foreignkeys" datatype="varchar" required="true" maxlength="255"/>
         <property name="namefield" fieldname="namefield" datatype="varchar" required="true" maxlength="100"/>
         <property name="pricefield" fieldname="pricefield" datatype="varchar" required="true" maxlength="100"/>
         <property name="name" fieldname="name" datatype="varchar" required="true" maxlength="255"/>
-        <property name="price" fieldname="price" datatype="float" default=""/>
-        <property name="tax" fieldname="tax" datatype="float"/>
+        <property name="price" fieldname="price" datatype="float" required="true"/>
+        <property name="tax" fieldname="tax" datatype="float" default="0"/>
         <property name="detail" fieldname="detail" datatype="text" default=""/>
         <property name="quantity" fieldname="quantity" datatype="int" required="true"/>
         <property name="thumbnail" fieldname="thumbnail" datatype="text" default=""/>
@@ -21,13 +21,19 @@
         updatepattern="" insertpattern="" selectpattern=""/>-->
     </record>
     <factory events="insertafter, insertbefore, updateafter, updatebefore, deletebefore, deletebybefore, specificdeletebefore">
-        <method name="findByOrder" type="select">
-            <parameter name="order_id" />
+        <method name="findByCart" type="select">
+            <parameter name="cart" />
             <conditions>
-                <eq property="order_id" expr="$order_id" />
+                <eq property="cart_id" expr="$cart" />
             </conditions>
         </method>
         
+        <method name="deleteByCart" type="delete" eventbefore="true">
+            <parameter name="cart" />
+            <conditions>
+                <eq property="cart_id" expr="$cart" />
+            </conditions>
+        </method>
         <!--<method name="findByStage" type="select/selectfirst/delete/update/php">
             <parameter name="" />
             <values>

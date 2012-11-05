@@ -5,10 +5,13 @@
 	</listener>
 	
 	<listener name="ecomDao">
-	    <event name="daoInsertBefore" />
+        <event name="daoInsertBefore" />
+        <event name="daoInsertAfter" />
 	    <event name="daoUpdateBefore" />
-	    <event name="daoDeleteAfter" />
-	    <event name="daoDeleteByAfter" />
+        <event name="daoUpdateAfter" />
+        <event name="daoDeleteBefore" />
+        <event name="daoDeleteByBefore" />
+        <event name="daoSpecificDeleteBefore" />
 	</listener>
 	
 </events>

@@ -6,14 +6,21 @@ class ecomAuthListener extends jEventListener {
 		if (! isset($_SESSION)) {
 			session_start();
 		}
-		$dao = jDao::get('ecom~cart');
-		$cnd = jDao::createConditions();
-		$cnd->addCondition('session', '=', session_id());
-		$cnd->addCondition('user', '=', NULL);
-		$items = $dao->findBy($cnd);
-		foreach ($items as $item) {
-			$item->user = $user->login;
-			$dao->update($item);
+		
+		jClasses::inc('ecom~ecomCart');
+		$cartSession = ecomCart::getCartSession();
+		$cartUser = jDao::get('ecom~cart')->getByUser($user->login);
+		
+		if (! $cartUser) {
+		    $cartSession->user = $user->login;
+		    $cartSession->save();
+		    
+		} elseif ($cartUser->id != $cartSession->id) {
+		    foreach ($cartSession->items() as $item) {
+		        $cartUser->addItem($item);
+		    }
+		    jDao::get('ecom~cart')->delete($cartSession->id);
+		    unset($_SESSION['ecom_cart']);
 		}
 	}
 }

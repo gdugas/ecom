@@ -3,13 +3,15 @@
     <datasources>
         <primarytable name="ecom_order" realname="ecom_order" primarykey="id" />
     </datasources>
-    <record>
+    <record extends="ecom~ecomOrder">
         <property name="id" fieldname="id" datatype="int" autoincrement="true"/>
         <property name="reference" fieldname="reference" datatype="varchar" required="true" maxlength="50"/>
         <property name="user" fieldname="user" datatype="varchar" required="true" maxlength="50"/>
         <property name="delivery" fieldname="delivery" datatype="int" required="true"/>
         <property name="payment" fieldname="payment" datatype="varchar" required="true" maxlength="50"/>
         <property name="status" fieldname="status" datatype="varchar" required="true" maxlength="25"/>
+        <property name="price" fieldname="price" datatype="float" required="true" default="0"/>
+        <property name="price_full" fieldname="price_full" datatype="float" required="true" default="0"/>
         
         <property name="date_order" fieldname="date_order" datatype="timestamp" default="" insertpattern="NOW()"/>
         <property name="date_ongoing" fieldname="date_ongoing" datatype="timestamp" default=""/>
@@ -41,7 +43,7 @@
         required="yes" maxlength="" minlength="" regexp="" sequence=""
         updatepattern="" insertpattern="" selectpattern=""/>-->
     </record>
-    <factory>
+    <factory events="insertafter, insertbefore, updateafter, updatebefore, deletebefore, deletebybefore">
         <method name="getByReference" type="selectfirst">
             <parameter name="reference" />
             <conditions>

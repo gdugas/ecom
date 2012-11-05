@@ -24,7 +24,7 @@ class orderCtrl extends jController {
     	$resp = $this->getResponse('html');
     	
     	jClasses::inc('ecom~ecomOrder');
-    	$order = ecomOrder::getById($this->param('id'));
+    	$order = jDao::get('ecom~order')->get($this->param('id'));
     	
     	$tpl = new jTpl();
     	$tpl->assign('order', $order);

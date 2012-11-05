@@ -59,8 +59,8 @@
 			<tr>
 				<td class="col-name">{$item->name}</td>
 				<td class="col-qtt">{$item->quantity}</td>
-				<td class="col-dutyfree">{$item->price_dutyfree} €</td>
-				<td class="col-price">{$item->price} €</td>
+				<td class="col-dutyfree">{$item->price} €</td>
+				<td class="col-price">{$item->price * $item->quantity} €</td>
 			</tr>
 		{/foreach}
 	</tbody>
@@ -77,9 +77,9 @@
 		</tr>
 	</thead>
 	<tbody>
-		<td>{$order->total('dutyfree')} €</td>
-		<td>{$order->total('tax')} €</td>
-		<td>{$order->total('price')} €</td>
+		<td>{$order->price} €</td>
+		<td>{$order->price_full - $order->price} €</td>
+		<td>{$order->price_full} €</td>
 	</tbody>
 </table>
 

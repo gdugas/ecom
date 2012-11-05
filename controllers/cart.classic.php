@@ -12,14 +12,12 @@ class cartCtrl extends jController {
 		}
 		
 		jClasses::inc('ecom~ecomCart');
-		$cart = ecomCart::get();
+		$cart = ecomCart::getCartSession();
 		
-		$item = $cart->getItem($this->param('id', 0));
+		$item = jDao::get('ecom~cart_item')->get($this->param('id', 0));
 		if ($item) {
-			$cart->update($item->product, array(
-				'quantity' => $this->param('qtt', 0),
-				'dao' => $item->dao
-			));
+		    $item->quantity = $this->param('qtt', 1);
+		    $item->save();
 		}
 		
 		$resp->url = urldecode($redirect);
@@ -36,12 +34,11 @@ class cartCtrl extends jController {
 		}
 		
 		jClasses::inc('ecom~ecomCart');
-		$cart = ecomCart::get();
-		
-		$item = $cart->getItem($this->param('id', 0));
-		if ($item) {
-			$cart->delete($item->product, $item->dao);
-		}
+		$cart = ecomCart::getCartSession();
+		$cnd = jDao::createConditions();
+		$cnd->addCondition('cart_id', '=', $cart->id);
+		$cnd->addCondition('id', '=', $this->param('id'));
+		jDao::get('ecom~cart_item')->deleteBy($cnd);
 		
 		$resp->url = urldecode($redirect);
 		return $resp;

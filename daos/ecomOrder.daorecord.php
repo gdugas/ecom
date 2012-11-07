@@ -24,9 +24,11 @@ abstract class ecomOrderDaoRecord extends cDaoUserRecord_ecom_Jx_order_Jx {
     function beforeSave() {
         $this->price = 0;
         $this->price_full = 0;
+        $this->weight = 0;
         foreach ($this->items() as $item) {
             $this->price += $item->price * $item->quantity;
             $this->price_full += $item->getPriceFull() * $item->quantity;
+            $this->weight += $item->weight * $item->quantity;
         }
     }
     

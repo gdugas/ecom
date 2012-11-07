@@ -12,6 +12,7 @@
         <property name="status" fieldname="status" datatype="varchar" required="true" maxlength="25"/>
         <property name="price" fieldname="price" datatype="float" required="true" default="0"/>
         <property name="price_full" fieldname="price_full" datatype="float" required="true" default="0"/>
+        <property name="weight" fieldname="weight" datatype="float" required="true" default="0"/>
         
         <property name="date_order" fieldname="date_order" datatype="timestamp" default="" insertpattern="NOW()"/>
         <property name="date_ongoing" fieldname="date_ongoing" datatype="timestamp" default=""/>

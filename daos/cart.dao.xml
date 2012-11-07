@@ -9,6 +9,7 @@
         <property name="session" fieldname="session" datatype="varchar" maxlength="50" required="true"/>
         <property name="price" fieldname="price" datatype="float" required="true" default="0"/>
         <property name="price_full" fieldname="price_full" datatype="float" required="true" default="0"/>
+        <property name="weight" fieldname="weight" datatype="float" required="true" default="0"/>
         <property name="date" fieldname="date" datatype="datetime" required="true" insertpattern="NOW()"/>
         <property name="last_update" fieldname="last_update" datatype="datetime" required="true" insertpattern="NOW()" updatepattern="NOW()"/>
         <!--<property name="" fieldname="" datatype="string/int/float/date"

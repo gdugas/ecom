@@ -3,7 +3,7 @@
     <datasources>
         <primarytable name="ecom_transport" realname="ecom_transport" primarykey="id" />
     </datasources>
-    <record>
+    <record extends="ecom~ecomTransport">
         <property name="id" fieldname="id" datatype="int" autoincrement="true"/>
         <property name="company" fieldname="company" datatype="varchar" required="true" maxlength="100"/>
         <property name="name" fieldname="name" datatype="varchar" required="true" maxlength="100"/>

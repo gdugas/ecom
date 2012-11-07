@@ -10,9 +10,12 @@
         <property name="foreignkeys" fieldname="foreignkeys" datatype="varchar" required="true" maxlength="255"/>
         <property name="namefield" fieldname="namefield" datatype="varchar" required="true" maxlength="100"/>
         <property name="pricefield" fieldname="pricefield" datatype="varchar" required="true" maxlength="100"/>
+        <property name="weightfield" fieldname="weightfield" datatype="varchar" required="true" maxlength="100"/>
         <property name="name" fieldname="name" datatype="varchar" required="true" maxlength="255"/>
         <property name="price" fieldname="price" datatype="float" required="true"/>
-        <property name="tax" fieldname="tax" datatype="float" default="0"/>
+        <property name="tax" fieldname="tax" datatype="float" default="0" required="true"/>
+        <property name="weight" fieldname="weight" datatype="float" required="true"/>
+        <property name="weight_unit" fieldname="weight_unit" datatype="varchar" required="true" maxlength="20"/>
         <property name="detail" fieldname="detail" datatype="text" default=""/>
         <property name="quantity" fieldname="quantity" datatype="int" required="true"/>
         <property name="thumbnail" fieldname="thumbnail" datatype="text" default=""/>

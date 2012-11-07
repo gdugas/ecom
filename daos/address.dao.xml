@@ -22,7 +22,7 @@
         required="yes" maxlength="" minlength="" regexp="" sequence=""
         updatepattern="" insertpattern="" selectpattern=""/>-->
     </record>
-    <factory>
+    <factory events="insertbefore, updatebefore">
         <method name="findByUser" type="select">
             <parameter name="user"/>
             <conditions>

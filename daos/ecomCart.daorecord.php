@@ -29,9 +29,11 @@ abstract class ecomCartDaoRecord extends cDaoUserRecord_ecom_Jx_cart_Jx {
     function beforeSave() {
         $this->price = 0;
         $this->price_full = 0;
+        $this->weight = 0;
         foreach ($this->items() as $item) {
             $this->price += $item->price * $item->quantity;
             $this->price_full += $item->getPriceFull() * $item->quantity;
+            $this->weight += $item->weight * $item->quantity;
         }
     }
     
@@ -43,6 +45,8 @@ abstract class ecomCartDaoRecord extends cDaoUserRecord_ecom_Jx_cart_Jx {
         $default = array(
             'namefield' => 'name',
             'pricefield' => 'price',
+            'weightfield' => 'weight',
+            'weight_unit' => NULL,
             'tax' => 0,
             'detail' => NULL,
             'quantity' => 1,
@@ -56,8 +60,11 @@ abstract class ecomCartDaoRecord extends cDaoUserRecord_ecom_Jx_cart_Jx {
         $item->foreignkeys = ecomCartItemDaoRecord::fkformat($record);
         $item->namefield = $params['namefield'];
         $item->pricefield = $params['pricefield'];
+        $item->weightfield = $params['weightfield'];
         $item->name = $record->$params['namefield'];
         $item->price = $record->$params['pricefield'];
+        $item->weight = $record->$params['weightfield'];
+        $item->weight_unit = $params['weight_unit'];
         $item->tax = $params['tax'];
         $item->detail = $params['detail'];
         $item->quantity = $params['quantity'];

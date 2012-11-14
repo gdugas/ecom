@@ -134,7 +134,7 @@ class ecomTransportRule {
 		return $cnd;
 	}
 	
-	function resolve($country, $zone_code, $weight) {
+	function resolve($country, $zone_code, $weight, $withTax=False) {
 		$this->resetVars();
 		$this->resetProcessors();
 		try {

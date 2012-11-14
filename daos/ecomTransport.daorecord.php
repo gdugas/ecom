@@ -2,7 +2,7 @@
 
 abstract class ecomTransportDaoRecord extends cDaoUserRecord_ecom_Jx_transport_Jx {
     
-    function getPrice($country, $zone_code, $weight, $withtax=false) {
+    function getPrice($country, $zone_code, $weight) {
         $default = null;
         
         jClasses::inc('ecom~ecomTransportRuleCompiler');
@@ -24,5 +24,10 @@ abstract class ecomTransportDaoRecord extends cDaoUserRecord_ecom_Jx_transport_J
         }
         
         return NULL;
+    }
+    
+    function getPriceFull($country, $zone_code, $weight) {
+        $price = $this->getPrice($country, $zone_code, $weight);
+        return $price + $price * 19.6 / 100;
     }
 }

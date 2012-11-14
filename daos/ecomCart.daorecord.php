@@ -185,19 +185,22 @@ abstract class ecomCartDaoRecord extends cDaoUserRecord_ecom_Jx_cart_Jx {
         // Adding cart items to order
         foreach($this->items() as $item) {
             $orderitem = jDao::createRecord('ecom~order_item');
-            $product = $item->product;
             
             $orderitem->order_id = $order->id;
             $orderitem->dao = $item->dao;
             $orderitem->foreignkeys = $item->foreignkeys;
             $orderitem->namefield = $item->namefield;
             $orderitem->pricefield = $item->pricefield;
+            $orderitem->weightfield = $item->weightfield;
+            $orderitem->weight_unit = $item->weight_unit;
+            
             $orderitem->tax = $item->tax;
             $orderitem->quantity = $item->quantity;
             $orderitem->thumbnail = $item->thumbnail;
             
             $orderitem->name = $item->name;
             $orderitem->price = $item->price;
+            $orderitem->weight = $item->weight;
             
             jDao::get('ecom~order_item')->insert($orderitem);
         }

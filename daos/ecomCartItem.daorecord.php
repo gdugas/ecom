@@ -2,6 +2,8 @@
 
 abstract class ecomCartItemDaoRecord extends cDaoUserRecord_ecom_Jx_cart_item_Jx {
     
+    private $_product = NULL;
+    
     function afterSave() {
         $cart = jDao::get('ecom~cart')->get($this->cart_id);
         if ($cart) {
@@ -28,6 +30,13 @@ abstract class ecomCartItemDaoRecord extends cDaoUserRecord_ecom_Jx_cart_item_Jx
             $pks[$field] = $record->$field;
         }
         return serialize($pks);
+    }
+    
+    public function getProduct () {
+        if ($this->_product === NULL) {
+            $this->_product = jDao::get($this->dao)->get(unserialize($this->foreignkeys));
+        }
+        return $this->_product;
     }
     
     // Return price with taxes

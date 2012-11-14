@@ -79,7 +79,8 @@ class ecomDaoListener extends jEventListener {
 	        case 'ecom~cart_item':
 	        case 'ecom~order':
 	        case 'ecom~order_item':
-	            $record = jDao::get($dao)->get($e->getParam('keys'));
+	            $keys = $e->getParam('keys');
+	            $record = jDao::get($dao)->get($keys['id']);
     	        if ($record) {
         	        $record->beforeDelete();
     	        }
@@ -104,16 +105,12 @@ class ecomDaoListener extends jEventListener {
 	
 	function onDaoSpecificDeleteBefore ($e) {
 	    $dao = $e->getParam('dao');
-		switch($dao) {
-	        case 'ecom~cart':
-	        case 'ecom~cart_item':
-	        case 'ecom~order':
-	        case 'ecom~order_item':
-	            $records = jDao::get($dao)->findBy($e->getParam('criterias'));
-    	        foreach ($records as $record) {
-        	        $record->beforeDelete();
-    	        }
-    	        break;
+	    $method = $e->getParam('method');
+		if ($dao == 'ecom~cart_item' && $method == 'deleteByCart') {
+            $record = jDao::get($dao)->get($e->getParam('params'));
+    	    if ($record) {
+    	        $record->beforeDelete();
+    	    }
 	    }
 	}
 }

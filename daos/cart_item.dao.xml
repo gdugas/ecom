@@ -37,6 +37,17 @@
                 <eq property="cart_id" expr="$cart" />
             </conditions>
         </method>
+        
+        <method name="moveToCart" type="update">
+            <parameter name="from"/>
+            <parameter name="to"/>
+            <values>
+                <value property="cart_id" expr="$to"/>
+            </values>
+            <conditions>
+                <eq property="cart_id" expr="$from" />
+            </conditions>
+        </method>
         <!--<method name="findByStage" type="select/selectfirst/delete/update/php">
             <parameter name="" />
             <values>

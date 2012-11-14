@@ -15,7 +15,9 @@ abstract class ecomCartItemDaoRecord extends cDaoUserRecord_ecom_Jx_cart_item_Jx
         $cart = jDao::get('ecom~cart')->get($this->cart_id);
         $this->price = 0;
         $this->save();
-        $cart->save();
+        if ($cart) {
+            $cart->save();
+        }
     }
     
     function beforeSave() {

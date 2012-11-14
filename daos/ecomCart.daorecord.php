@@ -19,7 +19,7 @@ abstract class ecomCartDaoRecord extends cDaoUserRecord_ecom_Jx_cart_Jx {
     }
     
     function afterSave() {
-        ecomCart::updateCart($this);
+        ecomCart::updateCartSession($this);
     }
     
     function beforeDelete() {

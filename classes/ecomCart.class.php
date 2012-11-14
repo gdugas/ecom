@@ -2,60 +2,48 @@
 
 class ecomCart {
 	
-/*	public static function getCart ($user = NULL, $session = NULL) {
-		if ($user == NULL && jAuth::isConnected()) {
-			$user = jAuth::getUserSession()->login;
-		} else {
-		    if (! isset($_SESSION)) {
-		        session_start();
-		    }
-			$user = 'session:'.session_id();
-		}
-		
-		$cart = jDao::get('ecom~cart')->getByUser($user);
-		return $cart;
-	}
-*/
-	
+    private static $_cart = NULL;
+    
+    public static function dropCartSession() {
+        self::$_cart = NULL;
+    }
+    
 	public static function getCartSession() {
 	    $cart = NULL;
-	    $user = NULL;
-	    $session = NULL;
+	    $dao = jDao::get('ecom~cart');
+	    $user = jAuth::getUserSession();
+	    
 	    if (! isset($_SESSION)) {
 	        session_start();
 	    }
 	    
-	    if (! isset($_SESSION['ecom_cart'])) {
-    	    // Get cart by user login
+	    if (self::$_cart === NULL) {
     	    if (jAuth::isConnected()) {
-    	        $user = jAuth::getUserSession();
-                $cart = jDao::get('ecom~cart')->getByUser($user->login);
-    	    }
-    	    
-    	    // If not cart, get by session_id
-    	    if (! $user) {
-    	        $cart = jDao::get('ecom~cart')->getBySession(session_id());
+    	        $cart = $dao->getByUser($user->login);
+    	    } else {
+    	        $cart = $dao->getByUser('session:'.session_id());
     	    }
     	    
     	    // If not cart, create it
     	    if (! $cart) {
         	    $cart = jDao::createRecord('ecom~cart');
-        	    if ($user && $user->login) {
-        	        $cart->user = $user;
+        	    if (jAuth::isConnected()) {
+        	        $cart->user = $user->login;
+        	    } else {
+            	    $cart->user = 'session:'.session_id();
         	    }
-        	    $cart->session = session_id();
     	        $cart->save();
     	    }
-    	    $_SESSION['ecom_cart'] = $cart;
+    	    self::$_cart = $cart;
 	    }
 	    
-	    return $_SESSION['ecom_cart'];
+	    return self::$_cart;
 	}
 	
-	public static function updateCart($cart) {
+	public static function updateCartSession($cart) {
 	    $currentCart = self::getCartSession();
 	    if ($currentCart->id == $cart->id) {
-	        $_SESSION['ecom_cart'] = $cart;
+	        self::$_cart = $cart;
 	    }
 	}
 }

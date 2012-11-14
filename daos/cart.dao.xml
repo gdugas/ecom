@@ -6,7 +6,6 @@
     <record extends="ecom~ecomCart">
         <property name="id" fieldname="id" datatype="int" autoincrement="true"/>
         <property name="user" fieldname="user" datatype="varchar" default="" maxlength="50"/>
-        <property name="session" fieldname="session" datatype="varchar" maxlength="50" required="true"/>
         <property name="price" fieldname="price" datatype="float" required="true" default="0"/>
         <property name="price_full" fieldname="price_full" datatype="float" required="true" default="0"/>
         <property name="weight" fieldname="weight" datatype="float" required="true" default="0"/>
@@ -21,12 +20,6 @@
             <parameter name="user" />
             <conditions>
                 <eq property="user" expr="$user" />
-            </conditions>
-        </method>
-        <method name="getBySession" type="selectfirst">
-            <parameter name="session" />
-            <conditions>
-                <eq property="session" expr="$session" />
             </conditions>
         </method>
         <!--<method name="findByStage" type="select/selectfirst/delete/update/php">
